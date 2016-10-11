@@ -80,15 +80,17 @@
 			//salvestame andmebaasi
 			echo "email: ".$signupEmail. "<br>";
 			$age=$_POST["signupAge"];
-			echo "vanus: ".$signupAge. "<br>";
+			echo "vanus: ".$age. "<br>";
 			
 			echo "password: ".$_POST["signupPassword"]."<br>";
 			$password = hash("sha512", $_POST["signupPassword"]);
 			$gender=$_POST["signupGender"];
 			echo "sugu: ".$gender. "<br>";
+			$language=$_POST["Language"];
+			echo "sugu: ".$language. "<br>";
 			echo "password hashed: ".$password."<br>";
 			
-			signUp($signupEmail, $password, $gender, $signupAge);
+			signUp($signupEmail, $password, $gender, $age, $language);
 		}
 		$error ="";
 	if ( isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && 
