@@ -2,7 +2,7 @@
 	// functions.php
 	//var_dump($GLOBALS);
 	require("../../config.php");
-	// see fail, peab olema kÃµigil lehtedel kus 
+	// see fail, peab olema kõigil lehtedel kus 
 	// tahan kasutada SESSION muutujat
 	session_start();
 	
@@ -22,7 +22,7 @@
 		echo $mysqli->error;
 		
 		if($stmt->execute()) {
-			echo "salvestamine Ãµnnestus";
+			echo "salvestamine õnnestus";
 		} else {
 		 	echo "ERROR ".$stmt->error;
 		}
@@ -31,7 +31,6 @@
 		$mysqli->close();
 		
 	}
-
 	function login ($email, $password) {
 		
 		$error = "";
@@ -45,15 +44,15 @@
 	
 		echo $mysqli->error;
 		
-		//asendan kÃ¼simÃ¤rgi
+		//asendan küsimärgi
 		$stmt->bind_param("s", $email);
 		
-		//mÃ¤Ã¤ran vÃ¤Ã¤rtused muutujatesse
+		//määran väärtused muutujatesse
 		$stmt->bind_result($id, $emailFromDb, $passwordFromDb, $created);
 		$stmt->execute();
 		
-		//andmed tulid andmebaasist vÃµi mitte
-		// on tÃµene kui on vÃ¤hemalt Ã¼ks vaste
+		//andmed tulid andmebaasist või mitte
+		// on tõene kui on vähemalt üks vaste
 		if($stmt->fetch()){
 			
 			//oli sellise meiliga kasutaja
@@ -63,7 +62,7 @@
 				
 				echo "Kasutaja logis sisse ".$id;
 				
-				//mÃ¤Ã¤ran sessiooni muutujad, millele saan ligi
+				//määran sessiooni muutujad, millele saan ligi
 				// teistelt lehtedelt
 				$_SESSION["userId"] = $id;
 				$_SESSION["userEmail"] = $emailFromDb;
@@ -84,20 +83,19 @@
 		return $error;
 		
 	}
-
 	
-	function saveCar ($plate, $color) {
+	function saveCar ($plate, $color, $masinatyyp, $comment) {
 		
 		$database = "if16_ingomagi";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
-		$stmt = $mysqli->prepare("INSERT INTO autod (plate, color) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO motikad (plate, color, masinatyyp, comment) VALUES (?, ?, ?, ?)");
 	
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $plate, $color);
+		$stmt->bind_param("ssss", $plate, $color, $masinatyyp, $comment);
 		
 		if($stmt->execute()) {
-			echo "salvestamine Ãµnnestus";
+			echo "salvestamine õnnestus";
 		} else {
 		 	echo "ERROR ".$stmt->error;
 		}
@@ -113,12 +111,12 @@
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
 	$stmt = $mysqli->prepare("
 	
-		SELECT id, plate, color
-		FROM autod
+		SELECT id, plate, color, comment
+		FROM motikad
 		");
 	
 	
-	$stmt->bind_result($id, $plate, $color);
+	$stmt->bind_result($id, $plate, $color, $comment);
 	$stmt->execute();
 	$result = array();
 	while($stmt->fetch()) {
@@ -127,6 +125,7 @@
 		$car->id = $id;
 		$car->plate = $plate;
 		$car->color = $color;
+		$car->comment = $comment;
 		
 		array_push($result, $car);
 	}  

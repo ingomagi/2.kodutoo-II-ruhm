@@ -2,6 +2,7 @@
 	
 	require("functions.php");
 	
+	$commentError = "";
 	//kui ei ole kasutaja id'd
 	if (!isset($_SESSION["userId"])){
 		
@@ -22,61 +23,52 @@
 		$msg = $_SESSION["message"];
 		unset($_SESSION["message"]);
 	}
+	if (strlen ($_POST["comment"])>255)
+		{
+			
+				$commentError = "tekst on suurem kui lubatud";
+			}
+	
+	
+	
 	
 	if 	(isset($_POST["plate"])&&
 		isset($_POST["color"])&&
+		isset($_POST["masinatyyp"])&&
+		isset($_POST["comment"])&&
 		!empty($_POST["plate"])&&
-		!empty($_POST["color"])
+		!empty($_POST["masinatyyp"])&&
+		!empty($_POST["comment"])&&
+		!empty($_POST["color"])&&
+		strlen ($_POST["comment"])<255
 		) {
-		saveCar(cleanInput($_POST["plate"]), $_POST["color"]);
+		saveCar(cleanInput($_POST["plate"]), $_POST["color"], $_POST["masinatyyp"], $_POST["comment"]);
 	}
-		$carData=getAllCars();
-	//echo "<pre>";	
-	//	var_dump($carData);
-	//echo "</pre>";
 ?>
+
+
 <h1>Data</h1>
 <?=$msg;?>
 <body bgcolor="#e6ffe6">
 <p>
-	Tere tulemast <?=$_SESSION["userEmail"];?>!
+	Tere tulemast <a href="user.php"><?=$_SESSION["userEmail"];?>!</a>
 	<a href="?logout=1">Logi välja</a>
 </p>
 
 <form method="POST">
-	<textarea name="comment" rows="5" cols="40"></textarea><br><br>
-  <input name="plate" placeholder = "numbri märk" type ="text" value=""><br><br>
+	Sisestage kommentaar oma pakutava masina kohta (255 char pikkus): <br>
+	<textarea name="comment" rows="5" cols="40"></textarea><br>
+	<select name="masinatyyp" type="masinatyyp">
+	<option value="">...</option>
+	<option value="klassikaline">Klassikaline</option>
+	<option value="Bike">Bike</option>
+	<option value="mopeed">mopeed</option>
+	<option value="Cruiser">Cruiser</option>
+	<option value="Enduro">Enduro</option>
+	<option value="Touring">Touring</option> 
+	</select> <br><br> 
+	<input name="plate" placeholder = "numbri märk" type ="text" value=""><br><br>
+	Valige passis olev masina värv: <br>
    <input type="color" name="color"><br><br>
    <input type="submit" value="Sisesta">
   </form>
-  
-<h2>Autod</h2>
-
-
-  <?php
-  $html = "<table>";
-  $html .="<tr>";
-	$html .="<th>id</th>";
-	$html .="<th>plate</th>";
-	$html .="<th>color</th>";
-  $html .="</tr>";
-  foreach($carData as $c){
-	  //iga auto on $c
-	  echo $c->plate."<br>";
-		$html .="<tr>";
-			$html .="<td>".$c->id."</td>";
-			$html .="<td>".$c->plate."</td>";
-			$html .="<td style='background-color:".$c->color."'>".$c->color."</td>";
-		$html .="</tr>";
-		
-	} echo $html;
-	
-	$html .= "</table>";
-	
-	$listHtml = "";
-	foreach($carData as $c){
-		$listHtml .= "<h1 style='color:".$c->color."'>".$c->plate."</h1>";
-	}
-	echo $listHtml;
-	
-?>

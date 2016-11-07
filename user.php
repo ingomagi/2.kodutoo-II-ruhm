@@ -1,5 +1,4 @@
 <?php
-
 	
 	require("functions.php");
 	
@@ -22,15 +21,15 @@
 	$langError = "";
 	$signupEmail="";
 	$signupAge="";
-
-	//on Ã¼ldse olemas
+	
+	//on üldse olemas
 	if(isset($_POST["signupEmail"]))
 	{
 		//jah on olemas
-		//kas on tÃ¼hi
+		//kas on tühi
 		if(empty($_POST["signupEmail"]))
 		{
-			$signupEmailError = "see vÃ¤li on kohustuslik";
+			$signupEmailError = "see väli on kohustuslik";
 		}else
 			{ 
 			$signupEmail=$_POST["signupEmail"];
@@ -40,12 +39,12 @@
 	{
 				if(empty($_POST["signupPassword"]))
 				{
-			$signupPasswordError = "see vÃ¤li on kohustuslik";
+			$signupPasswordError = "see väli on kohustuslik";
 		} else{ 
 			if (strlen ($_POST["signupPassword"])<8)
 			{
 			
-				$signupPasswordError = "parool on lÃ¼hem kui 8 mÃ¤rki";
+				$signupPasswordError = "parool on lühem kui 8 märki";
 			}
 		}
 	}	
@@ -61,12 +60,12 @@
 	{
 		if(empty($_POST["signupAge"]))
 		{
-		$ageError = " Unustasite sisestada oma sÃ¼nnipÃ¤eva";
+		$ageError = " Unustasite sisestada oma sünnipäeva";
 		}
 	}
 	
 	// peab olema email ja parool
-	//ja Ã¼htegi errorit ei olema
+	//ja ühtegi errorit ei olema
 	if (  $signupEmailError == "" 
 			&&
 			$signupPasswordError == ""
@@ -109,7 +108,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Logi sisse vÃµi loo kasutaja</title>
+<title>Logi sisse või loo kasutaja</title>
 </head>
 <body>
 <body bgcolor="pink">
@@ -136,8 +135,8 @@
 	<option value="naine">Naine</option>
 	<option value="meesnaine">muu</option>
   </select><?php echo $genderError;?>  <br><br>
-  Sisestage oma sÃ¼nnipÃ¤ev<br> 
-  <input name="signupAge" placeholder = "pÃ¤ev/kuu/aasta" type ="age"value="<?php echo $signupAge;?>">
+  Sisestage oma sünnipäev<br> 
+  <input name="signupAge" placeholder = "päev/kuu/aasta" type ="age"value="<?php echo $signupAge;?>">
   <?php echo $ageError;?>  <br><br>
 	Valige oma eelistatud suhtlus keel: <br>
 	<input type="radio" name="Language" value="EST" checked />EST
