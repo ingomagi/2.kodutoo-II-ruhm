@@ -3,6 +3,7 @@
 	require("functions.php");
 	
 	$commentError = "";
+	$comment= "";
 	//kui ei ole kasutaja id'd
 	if (!isset($_SESSION["userId"])){
 		
@@ -23,12 +24,7 @@
 		$msg = $_SESSION["message"];
 		unset($_SESSION["message"]);
 	}
-	if (strlen ($_POST["comment"])>255)
-		{
-			
-				$commentError = "tekst on suurem kui lubatud";
-			}
-	
+
 	
 	
 	
@@ -44,6 +40,12 @@
 		) {
 		saveCar(cleanInput($_POST["plate"]), $_POST["color"], $_POST["masinatyyp"], $_POST["comment"]);
 	}
+	$masinainfo = getAllCars();	
+	if (isset($_POST["comment"])&&
+		(strlen ($_POST["comment"])>255))
+		{
+				$commentError = "tekst on suurem kui lubatud";
+			}
 ?>
 
 
@@ -55,9 +57,40 @@
 	<a href="?logout=1">Logi välja</a>
 </p>
 
+	<?php 
+	
+	$html = "<table  style=' border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;';>";
+	
+	$html .= "<tr>";
+		$html .= "<th>id</th>";
+		$html .= "<th>numbrimärk</th>";
+		$html .= "<th>Masina värv</th>";
+		$html .= "<th>masina tüüp</th>";
+		$html .= "<th>kommentaar</th>";
+	$html .= "</tr>";
+	
+	//iga liikme kohta massiivis
+	foreach($masinainfo as $c){
+		
+		$html .= "<tr>";
+			$html .= "<td>".$c->id."</td>";
+			$html .= "<td>".$c->plate."</td>";
+			$html .= "<td style='background-color:".$c->color."'>".$c->color."</td>";
+			$html .= "<td>".$c->masinatyyp."</td>";
+			$html .= "<td>".$c->comment."</td>";
+			
+		$html .= "</tr>";
+	}
+	$html .= "</table>";	
+	echo $html;
+
+?>
+ <br> <br> <br>
 <form method="POST">
 	Sisestage kommentaar oma pakutava masina kohta (255 char pikkus): <br>
-	<textarea name="comment" rows="5" cols="40"></textarea><br>
+	<textarea name="comment" rows="5" cols="40"></textarea><?php echo $commentError;?>  <br><br>
 	<select name="masinatyyp" type="masinatyyp">
 	<option value="">...</option>
 	<option value="klassikaline">Klassikaline</option>

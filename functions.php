@@ -111,12 +111,12 @@
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
 	$stmt = $mysqli->prepare("
 	
-		SELECT id, plate, color, comment
+		SELECT id, plate, color, comment, masinatyyp
 		FROM motikad
 		");
 	
 	
-	$stmt->bind_result($id, $plate, $color, $comment);
+	$stmt->bind_result($id, $plate, $color, $comment, $masinatyyp);
 	$stmt->execute();
 	$result = array();
 	while($stmt->fetch()) {
@@ -125,6 +125,7 @@
 		$car->id = $id;
 		$car->plate = $plate;
 		$car->color = $color;
+		$car->masinatyyp = $masinatyyp;
 		$car->comment = $comment;
 		
 		array_push($result, $car);
