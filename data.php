@@ -53,7 +53,7 @@
 <?=$msg;?>
 <body bgcolor="#e6ffe6">
 <p>
-	Tere tulemast <a href="user.php"><?=$_SESSION["userEmail"];?>!</a>
+	Tere tulemast <?=$_SESSION["userEmail"];?>!</a>
 	<a href="?logout=1">Logi välja</a>
 </p>
 
@@ -77,7 +77,7 @@
 		$html .= "<tr>";
 			$html .= "<td>".$c->id."</td>";
 			$html .= "<td>".$c->plate."</td>";
-			$html .= "<td style='background-color:".$c->color."'>".$c->color."</td>";
+			$html .= "<td style='background-color:".$c->color."'style='color:".$c->color."'>".$c->color."</td>";
 			$html .= "<td>".$c->masinatyyp."</td>";
 			$html .= "<td>".$c->comment."</td>";
 			
@@ -90,7 +90,7 @@
  <br> <br> <br>
 <form method="POST">
 	Sisestage kommentaar oma pakutava masina kohta (255 char pikkus): <br>
-	<textarea name="comment" rows="5" cols="40"></textarea><?php echo $commentError;?>  <br><br>
+	<textarea name="comment" rows="5" cols="55" value="<?php echo $comment;?>" ></textarea><?php echo $commentError;?>  <br><br>
 	<select name="masinatyyp" type="masinatyyp">
 	<option value="">...</option>
 	<option value="klassikaline">Klassikaline</option>

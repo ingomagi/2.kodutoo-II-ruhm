@@ -2,19 +2,13 @@
 
 	
 	require("functions.php");
-	
-	// kui on juba sisse loginud siis suunan data lehele
 	if (isset($_SESSION["userId"])){
 		
-		//suunan sisselogimise lehele
+
 		header("Location: data.php");
 		exit();
 	}
-//get ja posti muutujad
-//
-	//var_dump ($_GET);
-	//echo "<br>";
-	//var_dump ($_POST);
+
 	$signupPasswordError = "";
 	$signupEmailError = "";
 	$genderError = "";
@@ -74,21 +68,26 @@
 			isset($_POST["signupEmail"])
 			&&
 			isset($_POST["signupPassword"])
+			&&
+			isset($_POST["signupGender"])
+			&&
+			isset($_POST["signupAge"])
+			
 			
 		)
 		{
 			//salvestame andmebaasi
-			echo "email: ".$signupEmail. "<br>";
+			//echo "email: ".$signupEmail. "<br>";
 			$age=$_POST["signupAge"];
-			echo "vanus: ".$age. "<br>";
+			//echo "vanus: ".$age. "<br>";
 			
-			echo "password: ".$_POST["signupPassword"]."<br>";
+			//echo "password: ".$_POST["signupPassword"]."<br>";
 			$password = hash("sha512", $_POST["signupPassword"]);
 			$gender=$_POST["signupGender"];
-			echo "sugu: ".$gender. "<br>";
+			//echo "sugu: ".$gender. "<br>";
 			$language=$_POST["Language"];
-			echo "sugu: ".$language. "<br>";
-			echo "password hashed: ".$password."<br>";
+			//echo "sugu: ".$language. "<br>";
+			//echo "password hashed: ".$password."<br>";
 			
 			signUp($signupEmail, $password, $gender, $age, $language);
 		}
